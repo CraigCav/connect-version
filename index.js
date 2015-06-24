@@ -7,7 +7,9 @@ function matchContentType() {
     var accepts = contenttype.splitContentTypes(acceptHeader)
       .map(contenttype.parseMedia);
 
-    return accepts.map(function(accept) {
+    return accepts.filter(function(accept) {
+      return accept.params.version;
+    }).map(function(accept) {
       return accept.params.version;
     });
   };
@@ -19,35 +21,39 @@ function notAcceptable(req, res) {
   res.end();
 }
 
+function findBestMatch(versions, accepts) {
+  var middleware;
+
+  for(var accept of accepts) {
+    if(accept in versions) {
+      middleware = versions[accept];
+      break;
+    }
+    for(var candidate in versions) {
+      if(semver.satisfies(candidate, accept)) {
+        middleware = versions[candidate];
+        break;
+      }
+    }
+  }
+  return middleware;
+}
+
 module.exports = function (options) {
   var versions = options.versions || {};
-  var versionNumbers = Object.keys(versions);
 
   var matcher = typeof options.match === 'function' ? options.match : undefined;
   matcher = matcher || matchContentType(options);
 
-  var fallback = options.default || notAcceptable;
+  var fallback = options.fallback || notAcceptable;
 
   return function(req, res, next) {
-    
+
     var acceptableVersions = matcher(req);
 
-    var middleware;
+    if(!acceptableVersions.length) return next();
 
-    for(var accept of acceptableVersions) {
-      if(accept in versions) {
-        middleware = versions[accept];
-        break;
-      }
-      for(var candidate of versionNumbers) {
-        if(semver.satisfies(candidate, accept)) {
-          middleware = versions[candidate];
-          break;
-        }
-      }
-    }
-
-    middleware = middleware || fallback;
+    var middleware = findBestMatch(versions, acceptableVersions) || fallback;
 
     middleware(req, res, next);
   };
