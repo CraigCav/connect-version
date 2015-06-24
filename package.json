@@ -1,6 +1,6 @@
 {
   "name": "connect-version",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Multiple Versioned Applications/APIs with Connect",
   "main": "index.js",
   "scripts": {

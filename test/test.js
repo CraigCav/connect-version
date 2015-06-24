@@ -67,4 +67,19 @@ describe('connect-version', function () {
       .set('Accept', 'application/vnd.com.myservice+text;version=3.2.3')
       .expect('Hello from fallback version!', done);
   });
+
+  it('bug fix: will skip to next middleware if no accept header present', function (done) {
+    var options = {};
+
+    var server = http.createServer(function(req, res) {
+        var middleware = connectVersion(options);
+        middleware(req, res, function() {
+          res.end('next');
+        });
+    });
+
+    request(server)
+      .get('/')
+      .expect('next', done);
+  });
 });

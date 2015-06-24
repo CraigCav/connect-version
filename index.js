@@ -3,7 +3,7 @@ var semver = require('semver');
 
 function matchContentType() {
   return function(req) {
-    var acceptHeader = req.headers['accept'];
+    var acceptHeader = req.headers['accept'] || '';
     var accepts = contenttype.splitContentTypes(acceptHeader)
       .map(contenttype.parseMedia);
 
