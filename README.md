@@ -1,4 +1,5 @@
-# [connect-version](https://github.com/CraigCav/connect-version)
+# connect-version
+Multiple Versioned Applications/APIs with Connect
 
 ## Getting Started
 
@@ -9,12 +10,20 @@ $ npm install connect-version
 ## API
 ```js
 var connectVersion = require('connect-version');
+
+app.use(connectVersion(options));
 ```
 The `connectVersion` object is a factory function to create middleware enabling
 multiple versions of an application to be hosted by a single connect server.
+The `options` parameter provides configuration for the factory. It provides
+a dictionary of supported version numbers and the corresponding 
+middlewares/routers/sub-applications to use when the version is requested.
+
+By default, connect-version uses Content-Type negotiation to determine the correct
+version number to use for an incoming request.
 
 ## Example
-### varying application/API version by Content-Type (in express/connect)
+### Varying Application/API version by Content-Type
 This example demonstrates using content type negotiation to return a 
 different response body based on what version the client whats to accept.
 The server lists it's supported versions via the `options` parameter and will
