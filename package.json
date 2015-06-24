@@ -1,0 +1,32 @@
+{
+  "name": "connect-version",
+  "version": "1.0.0",
+  "description": "Multiple Versioned Applications/APIs with Connect",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/",
+    "example": "node example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CraigCav/connect-version.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CraigCav/connect-version/issues"
+  },
+  "homepage": "https://github.com/CraigCav/connect-version#readme",
+  "devDependencies": {
+    "express": "^4.13.0",
+    "mocha": "^2.2.5",
+    "supertest": "^1.0.1"
+  },
+  "dependencies": {
+    "contenttype": "^1.0.1",
+    "semver": "^4.3.6"
+  },
+  "engines": {
+    "node": ">=0.11.14"
+  }
+}
