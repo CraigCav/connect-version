@@ -58,3 +58,5 @@ module.exports = function (options) {
     middleware(req, res, next);
   };
 };
+
+module.exports.matchContentType = matchContentType;
