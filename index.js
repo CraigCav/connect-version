@@ -22,9 +22,10 @@ function notAcceptable(req, res) {
 }
 
 function findBestMatch(versions, accepts) {
-  var middleware;
+  var middleware, accept;
 
-  for(var accept of accepts) {
+  for(var i=0; i < accepts.length; ++i) {
+    accept = accepts[i];
     if(accept in versions) {
       middleware = versions[accept];
       break;
